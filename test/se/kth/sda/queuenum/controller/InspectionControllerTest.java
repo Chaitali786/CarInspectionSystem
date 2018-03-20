@@ -5,7 +5,10 @@
  */
 package se.kth.sda.queuenum.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import junit.framework.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,6 +18,7 @@ import static org.junit.Assert.*;
 import org.junit.Ignore;
 import se.kth.sda.queuenum.integration.CreditCard;
 import se.kth.sda.queuenum.integration.Inspection;
+import se.kth.sda.queuenum.model.QueueNumber;
 
 /**
  *
@@ -22,7 +26,13 @@ import se.kth.sda.queuenum.integration.Inspection;
  */
 public class InspectionControllerTest {
     
+    private InspectionController instance;
+    private QueueNumber queueNo;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+
     public InspectionControllerTest() {
+        
     }
     
     @BeforeClass
@@ -35,22 +45,38 @@ public class InspectionControllerTest {
     
     @Before
     public void setUp() {
+         queueNo = new QueueNumber();
+         instance = new InspectionController(queueNo);
     }
     
     @After
     public void tearDown() {
     }
+    
+@Before
+public void setUpStreams() {
+    System.setOut(new PrintStream(outContent));
+    System.setErr(new PrintStream(errContent));
+}
+
+@After
+public void restoreStreams() {
+    System.setOut(System.out);
+    System.setErr(System.err);
+}
+
 
     /**
      * Test of displayNo method, of class InspectionController.
      */
-    @Ignore
+    @Test
     public void testDisplayNo() {
-        System.out.println("displayNo");
-        InspectionController instance = null;
         instance.displayNo();
+        String expected = "The display is now showing: 1\r\n";
+        String actual = outContent.toString();
+        
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Assert.assertEquals(expected, actual);
     }
 
     /**
@@ -59,66 +85,82 @@ public class InspectionControllerTest {
     @Ignore
     public void testOpenGarageDoor() {
         System.out.println("openGarageDoor");
-        InspectionController instance = null;
         instance.openGarageDoor();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expected = "The door is open";
+        String actual = outContent.toString();
+        boolean isExist =actual.contains(expected);
+        assertTrue(isExist);
     }
 
     /**
      * Test of closeGarageDoor method, of class InspectionController.
      */
-    @Ignore
+    @Test
     public void testCloseGarageDoor() {
-        System.out.println("closeGarageDoor");
-        InspectionController instance = null;
         instance.closeGarageDoor();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expected = "The door is closed";
+        String actual = outContent.toString();
+        boolean isExist =actual.contains(expected);
+        assertTrue(isExist);
+        
     }
 
     /**
      * Test of verifyRegistrationNo method, of class InspectionController.
      */
-    @Ignore
-    public void testVerifyRegistrationNo() {
-        System.out.println("verifyRegistrationNo");
-        String regNo = "";
-        InspectionController instance = null;
+    @Test
+    public void testVerifyValidRegistrationNo() {
+        
+        String regNo="1001";
+        boolean expResult = true;
+        boolean result = instance.verifyRegistrationNo(regNo);
+        assertEquals(expResult, result);
+    }
+/**
+     * Test of verifyRegistrationNo method, of class InspectionController.
+     */
+    @Test
+    public void testVerifyInValidRegistrationNo() {
+        
+         String regNo="k1001";
         boolean expResult = false;
         boolean result = instance.verifyRegistrationNo(regNo);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
     /**
      * Test of fetchInspectionList method, of class InspectionController.
      */
-    @Ignore
+    @Test
     public void testFetchInspectionList() {
-        System.out.println("fetchInspectionList");
-        String regNo = "";
-        InspectionController instance = null;
-        ArrayList<Inspection> expResult = null;
-        ArrayList<Inspection> result = instance.fetchInspectionList(regNo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        String regNo="1005";
+        ArrayList<Inspection> expectedInspectionList = new ArrayList<Inspection>();
+	ArrayList<Inspection> result = instance.fetchInspectionList(regNo);
+    	expectedInspectionList.add(new Inspection("Driver Seat Function",550.0,false));
+    	expectedInspectionList.add(new Inspection("Mirror Functions",300.0,false));
+    	expectedInspectionList.add(new Inspection("Central locking functions",250.0,false));
+    	expectedInspectionList.add(new Inspection("Navigation System",450.0,false));
+        assertNotNull(result);
+        assertEquals(expectedInspectionList.get(1).getInspectionValue(), result.get(1).getInspectionValue());
     }
 
     /**
      * Test of saveInspectionResult method, of class InspectionController.
      */
-    @Ignore
+    @Test
     public void testSaveInspectionResult() {
         System.out.println("saveInspectionResult");
-        String regNo = "";
-        ArrayList<Inspection> inspectionResult = null;
-        InspectionController instance = null;
+        String regNo = "1001";
+        ArrayList<Inspection> inspectionResult = new ArrayList<Inspection>();
+        inspectionResult.add(new Inspection("Driver Seat Function", 200, false));
+        inspectionResult.add(new Inspection("Mirror Functions", 300, true));
+        inspectionResult.add(new Inspection("Navigation System", 500, true));
+   
         instance.saveInspectionResult(regNo, inspectionResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expected = " Registration Number :";
+        String actual = outContent.toString();
+        boolean isExist =actual.contains(expected);
+        assertTrue(isExist);
     }
 
     /**
@@ -156,30 +198,32 @@ public class InspectionControllerTest {
     /**
      * Test of savePayment method, of class InspectionController.
      */
-    @Ignore
+    @Test
     public void testSavePayment() {
         System.out.println("savePayment");
-        String regNo = "";
-        double cost = 0.0;
-        InspectionController instance = null;
+        String regNo = "1001";
+        double cost = 1000.0;
+        String expected = "Payment Saved Sucessfully!!!!!";
         instance.savePayment(regNo, cost);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String actual = outContent.toString();
+         boolean isExist =actual.contains(expected);
+        assertTrue(isExist);
     }
 
     /**
      * Test of calculateCost method, of class InspectionController.
      */
-    @Ignore
+    @Test
     public void testCalculateCost() {
-        System.out.println("calculateCost");
-        ArrayList<Inspection> inspectionList = null;
-        InspectionController instance = null;
-        double expResult = 0.0;
+        
+        double expResult = 1000.0;
+        ArrayList<Inspection> inspectionList = new ArrayList<Inspection>();
+        inspectionList.add(new Inspection("Driver Seat Function", 200, false));
+        inspectionList.add(new Inspection("Mirror Functions", 300, true));
+        inspectionList.add(new Inspection("Navigation System", 500, true));
+   
         double result = instance.calculateCost(inspectionList);
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

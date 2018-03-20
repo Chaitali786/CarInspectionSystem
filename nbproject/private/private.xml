@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/src/se/kth/sda/queuenum/integration/DataRecords.java</file>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/src/se/kth/sda/queuenum/model/QueueNumber.java</file>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/src/se/kth/sda/queuenum/controller/InspectionController.java</file>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/src/se/kth/sda/queuenum/integration/Display.java</file>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/test/se/kth/sda/queuenum/controller/InspectionControllerTest.java</file>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/test/se/kth/sda/queuenum/integration/DataRecordsTest.java</file>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/src/se/kth/sda/queuenum/model/Garage.java</file>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/src/se/kth/sda/queuenum/startup/Main.java</file>
+            <file>file:/C:/Users/Mukesh/ood/CarInspectionSystem/src/se/kth/sda/queuenum/model/Door.java</file>
+        </group>
+    </open-files>
 </project-private>

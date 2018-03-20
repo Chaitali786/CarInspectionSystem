@@ -31,6 +31,7 @@ class Door {
     void open() {
         doorStateLabel.setForeground(OPEN_COLOR);
         doorStateLabel.setText(OPEN_TEXT);
+        System.out.println(OPEN_TEXT);
     }
 
     /**
@@ -39,6 +40,7 @@ class Door {
     void close() {
         doorStateLabel.setForeground(CLOSED_COLOR);
         doorStateLabel.setText(CLOSED_TEXT);
+        System.out.println(CLOSED_TEXT);
     }
 
     private void contactDoor() {
