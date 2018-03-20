@@ -5,6 +5,7 @@
  */
 package se.kth.sda.queuenum.model;
 
+import se.kth.sda.queuenum.integration.Inspection;
 import java.util.ArrayList;
 import se.kth.sda.queuenum.integration.DataRecords;
 
@@ -24,25 +25,25 @@ public class Inspections {
     }
     
      
-    public boolean verifyRegistrationNo(int regNo)
+    public boolean verifyRegistrationNo(String regNo)
     {
         boolean isRegNoVerified = db.verifyRegistrationNo(regNo);
         return isRegNoVerified;
     }
     
-    public ArrayList<Inspection> fetchInspectionList(int regNo)
+    public ArrayList<Inspection> fetchInspectionList(String regNo)
     {
         ArrayList<Inspection> inspectionList= db.fetchInspectionList(regNo);
         calculateCost(inspectionList);
         return inspectionList;
     }
-     public void saveInspectionResult(int regNo,ArrayList<Inspection> inspectionResult)
+     public void saveInspectionResult(String regNo,ArrayList<Inspection> inspectionResult)
     {
          db.saveInspectionResult(regNo,inspectionResult);
          db.displaySaveInspectionResult(regNo);
     }
     
-      public void savePayment(int regNo,double cost)
+      public void savePayment(String regNo,double cost)
     {
         db.savePayment(regNo,cost);
         
