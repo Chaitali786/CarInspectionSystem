@@ -1,4 +1,4 @@
-package se.kth.sda.queuenum.model;
+package se.kth.sda.queuenum.integration;
 
 import java.time.YearMonth;
 import java.util.Date;

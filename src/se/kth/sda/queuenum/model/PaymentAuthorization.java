@@ -1,5 +1,7 @@
 package se.kth.sda.queuenum.model;
 
+import se.kth.sda.queuenum.integration.CreditCard;
+
 /**
  * Handles all communication with the payment authorization system.
  */

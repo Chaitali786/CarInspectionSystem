@@ -7,13 +7,14 @@ package se.kth.sda.queuenum.view;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import se.kth.sda.queuenum.controller.InspectionController;
-import se.kth.sda.queuenum.model.CreditCard;
-import se.kth.sda.queuenum.model.Inspection;
+import se.kth.sda.queuenum.integration.CreditCard;
+import se.kth.sda.queuenum.integration.Inspection;
 
 /**
- *
+ * View for Inspector
  * @author tmp-sda-1160
  */
 public class InspectorView {
@@ -28,18 +29,34 @@ public class InspectorView {
         inspectionResult = new ArrayList<>();
     }
 
+    /**
+     * Opens garage Door
+     */
     public void openGarageDoor() {
         contr.openGarageDoor();
     }
-
+    
+    /**
+     * Closes garage Door
+     */
     public void closeGarageDoor() {
         contr.closeGarageDoor();
     }
-
+    
+    /**
+     * Verify Reg No and Fetch if Inspections
+     * exist for that Reg No. Customer makes Payment
+     * Inspector saves the result
+     */
     public void performInspection() {
         System.out.println("Enter Registration No");
         Scanner sc = new Scanner(System.in);
-        int regNo = sc.nextInt();
+        
+        try
+        {
+            String regNo = sc.next();
+      
+       
         boolean isRegNoVerified = contr.verifyRegistrationNo(regNo);
         if (isRegNoVerified) {
             inspectionList = contr.fetchInspectionList(regNo);
@@ -60,7 +77,17 @@ public class InspectorView {
         } else {
             System.out.println("Enter Valid Regisitration No");
         }
+<<<<<<< HEAD
 
+=======
+    }
+         catch(InputMismatchException ex)
+        {
+        System.out.println("Enter Reg No in proper format");
+        }
+        
+        
+>>>>>>> c1741a30a596b911b2ccf8a28e2a795177f607f6
     }
 
     void makeInspectionresult() {
@@ -69,7 +96,7 @@ public class InspectorView {
         inspectionResult.add(new Inspection("Navigation System", 500, true));
     }
 
-    void displayInspectionList(int regNo, ArrayList<Inspection> inspectionData) {
+    void displayInspectionList(String regNo, ArrayList<Inspection> inspectionData) {
         System.out.printf(" Registration Number :    " + regNo);
         System.out.println();
         System.out.println();
@@ -85,7 +112,7 @@ public class InspectorView {
         }
     }
 
-    void makePaymentByCashOrCard(int regNo, double totalCost) {
+    void makePaymentByCashOrCard(String regNo, double totalCost) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to pay by Credit Card? enter yes or No");
         String payByCard = sc.next();
