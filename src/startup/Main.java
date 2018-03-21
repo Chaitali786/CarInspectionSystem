@@ -25,15 +25,15 @@ public class Main {
 
         nxb.displayNo();
         view.openGarageDoor();
+        view.closeGarageDoor();
         boolean isInspectionDone = view.performInspection();
-        if (isInspectionDone) {
-            view.closeGarageDoor();
-            nxb.displayNo();
-            view.openGarageDoor();
-        } else {
+        while (!isInspectionDone) {
+
             view.performInspection();
 
         }
+        nxb.displayNo();
+        view.openGarageDoor();
 
     }
 

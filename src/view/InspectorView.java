@@ -9,7 +9,7 @@ import integration.CreditCard;
 import integration.InspectionDTO;
 
 /**
- * View for Inspector to view and enter insoection related data
+ * View for Inspector to view and enter inspection related data
  *
  * @author tmp-sda-1160
  */
@@ -62,19 +62,19 @@ public class InspectorView {
                 double totalcost = contr.calculateCost(inspectionList);
                 System.out.println("Total Cost: " + totalcost);
                 boolean isPaymentDone = makePaymentByCashOrCard(regNo, totalcost);
-                if (isPaymentDone) {
-                    System.out.println("Performing inspection......");
-                    System.out.println("Inspection Result......");
-                    System.out.println();
-
-                    makeInspectionresult(inspectionList);
-                    contr.saveInspectionResult(regNo, inspectionResult);
-                    System.out.println("Inspection done for Vehicle" + regNo);
-                    return true;
-                } else {
+                while (!isPaymentDone) {
                     System.out.println("Add Payment more than Total cost");
-                    return false;
+                    isPaymentDone = makePaymentByCashOrCard(regNo, totalcost);
                 }
+
+                System.out.println("Performing inspection......");
+                System.out.println("Inspection Result......");
+                System.out.println();
+
+                makeInspectionresult(inspectionList);
+                contr.saveInspectionResult(regNo, inspectionResult);
+                System.out.println("Inspection done for Vehicle" + regNo);
+                return true;
 
             } else {
                 System.out.println("Enter Valid Regisitration No");
@@ -84,6 +84,7 @@ public class InspectorView {
         } catch (InputMismatchException ex) {
             System.out.println("Enter Reg No in proper format");
         }
+
         return false;
     }
 

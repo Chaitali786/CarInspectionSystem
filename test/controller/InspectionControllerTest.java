@@ -14,8 +14,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
-import integration.CreditCard;
 import integration.InspectionDTO;
 import model.QueueNumber;
 
@@ -196,7 +194,5 @@ public class InspectionControllerTest {
         double result = instance.calculateCost(inspectionList);
         assertEquals(expResult, result, 0.0);
     }
-
-   
 
 }
