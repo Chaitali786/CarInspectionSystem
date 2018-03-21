@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package integration;
+package se.kth.sda.queuenum.integration;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,12 +17,14 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 
+
 /**
  *
- * @author tmp-sda-1160
+ * @author OODGroup
  */
 public class DataRecordsTest {
     
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     DataRecords db; 
     public DataRecordsTest() {
     }
@@ -42,32 +47,48 @@ public class DataRecordsTest {
     @After
     public void tearDown() {
     }
+    @Before
+    public void setUpStreams() {
+    System.setOut(new PrintStream(outContent));
+    //System.setErr(new PrintStream(errContent));
+}
+
+    @After
+    public void restoreStreams() {
+    System.setOut(System.out);
+    
+}
 
     /**
      * Test of makeInspectionTaskArrayList method, of class DataRecords.
      */
-    @Ignore
+    @Test
     public void testMakeInspectionTaskArrayList() {
-        System.out.println("makeInspectionTaskArrayList");
-        InspectionDTO[] args = null;
-        DataRecords instance = new DataRecords();
-        ArrayList<InspectionDTO> expResult = null;
-        ArrayList<InspectionDTO> result = instance.makeInspectionTaskArrayList(args);
+        DataRecords databaseObj = new DataRecords();
+        System.out.println("Test Case For : makeInspectionTaskArrayList() ");
+       
+        ArrayList<Inspection> expResult = new ArrayList<Inspection>() ;
+        ArrayList<Inspection> result = null;
+              
+        Inspection inspection = new Inspection("Driver Seat Function", 200, false);
+        expResult.add(inspection);
+        result=databaseObj.makeInspectionTaskArrayList(inspection);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of makeRegNumInspectionList method, of class DataRecords.
      */
-    @Ignore
+    @Test
     public void testMakeRegNumInspectionList() {
-        System.out.println("makeRegNumInspectionList");
-        DataRecords instance = new DataRecords();
-        instance.makeRegNumInspectionList();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        DataRecords databaseObj = new DataRecords();
+        System.out.println("Test Case For : makeRegNumInspectionList() ");
+        databaseObj.makeRegNumInspectionList();
+        String expected = "Data Records Are Available  !!!";
+        String actual = outContent.toString();
+        boolean isExist = actual.contains(expected);
+        assertTrue(isExist);
+             
     }
 
     /**
@@ -88,68 +109,69 @@ public class DataRecordsTest {
      */
     @Test
     public void testFetchInspectionList() {
-       ArrayList<InspectionDTO> tempArrayList = new ArrayList<InspectionDTO>();
-		 ArrayList<InspectionDTO> tempArrayListfromdb =  new ArrayList<InspectionDTO>();
+        ArrayList<Inspection> tempArrayList = new ArrayList<Inspection>();
+        ArrayList<Inspection> tempArrayListfromdb =  new ArrayList<Inspection>();
     	tempArrayListfromdb=db.fetchInspectionList("1005");
-    	tempArrayList.add(new InspectionDTO("Driver Seat Function",550,false));
-    	tempArrayList.add(new InspectionDTO("Mirror Functions",300,false));
-    	tempArrayList.add(new InspectionDTO("Central locking functions",250,false));
-    	tempArrayList.add(new InspectionDTO("Navigation System",450,false));
+    	tempArrayList.add(new Inspection("Driver Seat Function",550,false));
+    	tempArrayList.add(new Inspection("Mirror Functions",300,false));
+    	tempArrayList.add(new Inspection("Central locking functions",250,false));
+    	tempArrayList.add(new Inspection("Navigation System",450,false));
        	assertNotNull(tempArrayListfromdb);
         assertEquals(tempArrayList.get(0).getInspectionValue(), tempArrayListfromdb.get(0).getInspectionValue());
     }
 
-    /**
-     * Test of saveInspectionResult method, of class DataRecords.
-     */
-    @Ignore
-    public void testSaveInspectionResult_0args() {
-        System.out.println("saveInspectionResult");
-        DataRecords instance = new DataRecords();
-        instance.saveInspectionResult();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+   
 
     /**
      * Test of saveInspectionResult method, of class DataRecords.
      */
-    @Ignore
-    public void testSaveInspectionResult_int_ArrayList() {
+    @Test
+    public void testSaveInspectionResult() {
         System.out.println("saveInspectionResult");
-       String regNo ="" ;
-        ArrayList<InspectionDTO> inspectionresult = null;
-        DataRecords instance = new DataRecords();
-        instance.saveInspectionResult(regNo, inspectionresult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String regNo = "1001";
+        ArrayList<Inspection> inspectionResult = new ArrayList<Inspection>();
+        inspectionResult.add(new Inspection("Driver Seat Function", 200, false));
+        inspectionResult.add(new Inspection("Mirror Functions", 300, true));
+        inspectionResult.add(new Inspection("Navigation System", 500, true));
+   
+        db.saveInspectionResult(regNo, inspectionResult);
+        String expected = "Inspection Done !!!";
+        String actual   =  outContent.toString();
+        boolean isExist =  actual.contains(expected);
+        assertTrue(isExist);
     }
 
     /**
      * Test of displaySaveInspectionResult method, of class DataRecords.
      */
-    @Ignore
+    @Test
     public void testDisplaySaveInspectionResult() {
         System.out.println("displaySaveInspectionResult");
-        String regNo ="" ;
-        DataRecords instance = new DataRecords();
-        instance.displaySaveInspectionResult(regNo);
+        String regNo ="1005" ;
+        db.displaySaveInspectionResult(regNo);
+        String expected = " Registration Number :";
+        String actual = outContent.toString();
+        boolean isExist = actual.contains(expected);
+        assertTrue(isExist);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
      * Test of savePayment method, of class DataRecords.
      */
-    @Ignore
+    @Test
     public void testSavePayment() {
         System.out.println("savePayment");
-        String regNo ="" ;
-        double costPaid = 0.0;
-        DataRecords instance = new DataRecords();
-        instance.savePayment(regNo, costPaid);
+        String regNo ="1001" ;
+        double costpaid=1000.0;
+        db.savePayment(regNo,costpaid);
+        String expected = "Payment Saved Sucessfully!!!!!";
+        String actual = outContent.toString();
+        boolean isExist = actual.contains(expected);
+        assertTrue(isExist);
+        
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
-    
-}
+ }
