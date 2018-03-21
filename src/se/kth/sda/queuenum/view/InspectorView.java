@@ -44,23 +44,23 @@ public class InspectorView {
         if (isRegNoVerified) {
             inspectionList = contr.fetchInspectionList(regNo);
             displayInspectionList(regNo, inspectionList);
-        double totalcost = contr.calculateCost(inspectionList);
-        System.out.println("Total Cost: " +totalcost);
-        makePaymentByCashOrCard(regNo, totalcost);
-        System.out.println("Performing inspection......");
-        System.out.println("Inspection Result......");
-        System.out.println();
+            double totalcost = contr.calculateCost(inspectionList);
+            System.out.println("Total Cost: " + totalcost);
+            makePaymentByCashOrCard(regNo, totalcost);
+            System.out.println("Performing inspection......");
+            System.out.println("Inspection Result......");
+            System.out.println();
 
-        System.out.println("*****************************************************************");
-        System.out.println("##################  INSPECTION RESULT CHECKLIST   ###############");
-        System.out.println("*****************************************************************");
-        makeInspectionresult();
-        contr.saveInspectionResult(regNo, inspectionResult);
-        System.out.println("Inspection done for Vehicle" + regNo);
+            System.out.println("*****************************************************************");
+            System.out.println("##################  INSPECTION RESULT CHECKLIST   ###############");
+            System.out.println("*****************************************************************");
+            makeInspectionresult();
+            contr.saveInspectionResult(regNo, inspectionResult);
+            System.out.println("Inspection done for Vehicle" + regNo);
         } else {
             System.out.println("Enter Valid Regisitration No");
         }
-        
+
     }
 
     void makeInspectionresult() {
