@@ -8,7 +8,6 @@ package se.kth.sda.queuenum.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import junit.framework.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,7 +16,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import se.kth.sda.queuenum.integration.CreditCard;
-import se.kth.sda.queuenum.integration.Inspection;
+import se.kth.sda.queuenum.integration.InspectionDTO;
 import se.kth.sda.queuenum.model.QueueNumber;
 
 /**
@@ -72,11 +71,11 @@ public void restoreStreams() {
     @Test
     public void testDisplayNo() {
         instance.displayNo();
-        String expected = "The display is now showing: 1\r\n";
+        String expected = "The display is now showing: 1";
         String actual = outContent.toString();
         
-        // TODO review the generated test code and remove the default call to fail.
-        Assert.assertEquals(expected, actual);
+       boolean isExist =actual.contains(expected);
+        assertTrue(isExist);
     }
 
     /**
@@ -134,12 +133,12 @@ public void restoreStreams() {
     public void testFetchInspectionList() {
         
         String regNo="1005";
-        ArrayList<Inspection> expectedInspectionList = new ArrayList<Inspection>();
-	ArrayList<Inspection> result = instance.fetchInspectionList(regNo);
-    	expectedInspectionList.add(new Inspection("Driver Seat Function",550.0,false));
-    	expectedInspectionList.add(new Inspection("Mirror Functions",300.0,false));
-    	expectedInspectionList.add(new Inspection("Central locking functions",250.0,false));
-    	expectedInspectionList.add(new Inspection("Navigation System",450.0,false));
+        ArrayList<InspectionDTO> expectedInspectionList = new ArrayList<InspectionDTO>();
+	ArrayList<InspectionDTO> result = instance.fetchInspectionList(regNo);
+    	expectedInspectionList.add(new InspectionDTO("Driver Seat Function",550.0,false));
+    	expectedInspectionList.add(new InspectionDTO("Mirror Functions",300.0,false));
+    	expectedInspectionList.add(new InspectionDTO("Central locking functions",250.0,false));
+    	expectedInspectionList.add(new InspectionDTO("Navigation System",450.0,false));
         assertNotNull(result);
         assertEquals(expectedInspectionList.get(1).getInspectionValue(), result.get(1).getInspectionValue());
     }
@@ -151,13 +150,13 @@ public void restoreStreams() {
     public void testSaveInspectionResult() {
         System.out.println("saveInspectionResult");
         String regNo = "1001";
-        ArrayList<Inspection> inspectionResult = new ArrayList<Inspection>();
-        inspectionResult.add(new Inspection("Driver Seat Function", 200, false));
-        inspectionResult.add(new Inspection("Mirror Functions", 300, true));
-        inspectionResult.add(new Inspection("Navigation System", 500, true));
+        ArrayList<InspectionDTO> inspectionResult = new ArrayList<InspectionDTO>();
+        inspectionResult.add(new InspectionDTO("Driver Seat Function", 200, false));
+        inspectionResult.add(new InspectionDTO("Mirror Functions", 300, true));
+        inspectionResult.add(new InspectionDTO("Navigation System", 500, true));
    
         instance.saveInspectionResult(regNo, inspectionResult);
-        String expected = " Registration Number :";
+        String expected = regNo;
         String actual = outContent.toString();
         boolean isExist =actual.contains(expected);
         assertTrue(isExist);
@@ -217,10 +216,10 @@ public void restoreStreams() {
     public void testCalculateCost() {
         
         double expResult = 1000.0;
-        ArrayList<Inspection> inspectionList = new ArrayList<Inspection>();
-        inspectionList.add(new Inspection("Driver Seat Function", 200, false));
-        inspectionList.add(new Inspection("Mirror Functions", 300, true));
-        inspectionList.add(new Inspection("Navigation System", 500, true));
+        ArrayList<InspectionDTO> inspectionList = new ArrayList<InspectionDTO>();
+        inspectionList.add(new InspectionDTO("Driver Seat Function", 200, false));
+        inspectionList.add(new InspectionDTO("Mirror Functions", 300, true));
+        inspectionList.add(new InspectionDTO("Navigation System", 500, true));
    
         double result = instance.calculateCost(inspectionList);
         assertEquals(expResult, result, 0.0);

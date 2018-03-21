@@ -49,10 +49,10 @@ public class DataRecordsTest {
     @Ignore
     public void testMakeInspectionTaskArrayList() {
         System.out.println("makeInspectionTaskArrayList");
-        Inspection[] args = null;
+        InspectionDTO[] args = null;
         DataRecords instance = new DataRecords();
-        ArrayList<Inspection> expResult = null;
-        ArrayList<Inspection> result = instance.makeInspectionTaskArrayList(args);
+        ArrayList<InspectionDTO> expResult = null;
+        ArrayList<InspectionDTO> result = instance.makeInspectionTaskArrayList(args);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -88,15 +88,15 @@ public class DataRecordsTest {
      */
     @Test
     public void testFetchInspectionList() {
-       ArrayList<Inspection> tempArrayList = new ArrayList<Inspection>();
-		 ArrayList<Inspection> tempArrayListfromdb =  new ArrayList<Inspection>();
+       ArrayList<InspectionDTO> tempArrayList = new ArrayList<InspectionDTO>();
+		 ArrayList<InspectionDTO> tempArrayListfromdb =  new ArrayList<InspectionDTO>();
     	tempArrayListfromdb=db.fetchInspectionList("1005");
-    	tempArrayList.add(new Inspection("Driver Seat Function",550,false));
-    	tempArrayList.add(new Inspection("Mirror Functions",300,false));
-    	tempArrayList.add(new Inspection("Central locking functions",250,false));
-    	tempArrayList.add(new Inspection("Navigation System",450,false));
+    	tempArrayList.add(new InspectionDTO("Driver Seat Function",550,false));
+    	tempArrayList.add(new InspectionDTO("Mirror Functions",300,false));
+    	tempArrayList.add(new InspectionDTO("Central locking functions",250,false));
+    	tempArrayList.add(new InspectionDTO("Navigation System",450,false));
        	assertNotNull(tempArrayListfromdb);
-        assertEquals(tempArrayList.get(0).getInspectionValue(), tempArrayListfromdb.get(0).getInspectionStatus());
+        assertEquals(tempArrayList.get(0).getInspectionValue(), tempArrayListfromdb.get(0).getInspectionValue());
     }
 
     /**
@@ -118,7 +118,7 @@ public class DataRecordsTest {
     public void testSaveInspectionResult_int_ArrayList() {
         System.out.println("saveInspectionResult");
        String regNo ="" ;
-        ArrayList<Inspection> inspectionresult = null;
+        ArrayList<InspectionDTO> inspectionresult = null;
         DataRecords instance = new DataRecords();
         instance.saveInspectionResult(regNo, inspectionresult);
         // TODO review the generated test code and remove the default call to fail.

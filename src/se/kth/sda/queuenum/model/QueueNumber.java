@@ -14,10 +14,17 @@ public class QueueNumber {
         
     }
     
+    /**
+     * To increment Queue no
+     */
     public void incrementQueueNo()
     {
       queueNo++;
     }
+    /**
+     * To get Current Queue No
+     * @return 
+     */
     public int getQueueNo()
     {
      return queueNo;

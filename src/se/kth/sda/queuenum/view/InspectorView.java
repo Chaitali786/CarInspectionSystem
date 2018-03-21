@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package se.kth.sda.queuenum.view;
 
 import java.util.ArrayList;
@@ -11,18 +6,23 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import se.kth.sda.queuenum.controller.InspectionController;
 import se.kth.sda.queuenum.integration.CreditCard;
-import se.kth.sda.queuenum.integration.Inspection;
+import se.kth.sda.queuenum.integration.InspectionDTO;
 
 /**
- * View for Inspector
+ * View for Inspector to view and enter insoection related data
+ *
  * @author tmp-sda-1160
  */
 public class InspectorView {
 
     private InspectionController contr;
-    private ArrayList<Inspection> inspectionList;
-    private ArrayList<Inspection> inspectionResult;
+    private ArrayList<InspectionDTO> inspectionList;
+    private ArrayList<InspectionDTO> inspectionResult;
 
+    /**
+     * Constructor
+     * @param contr 
+     */
     public InspectorView(InspectionController contr) {
         this.contr = contr;
         inspectionList = new ArrayList<>();
@@ -35,64 +35,77 @@ public class InspectorView {
     public void openGarageDoor() {
         contr.openGarageDoor();
     }
-    
+
     /**
      * Closes garage Door
      */
     public void closeGarageDoor() {
         contr.closeGarageDoor();
     }
-    
+
     /**
-     * Verify Reg No and Fetch if Inspections
-     * exist for that Reg No. Customer makes Payment
-     * Inspector saves the result
+     * Verify Reg No and Fetch if Inspections exist for that Reg No. Customer
+     * makes Payment Inspector saves the result
      */
     public void performInspection() {
         System.out.println("Enter Registration No");
         Scanner sc = new Scanner(System.in);
-        
-        try
-        {
+
+        try {
             String regNo = sc.next();
-      
-       
-        boolean isRegNoVerified = contr.verifyRegistrationNo(regNo);
-        if (isRegNoVerified) {
-            inspectionList = contr.fetchInspectionList(regNo);
-            displayInspectionList(regNo, inspectionList);
-        double totalcost = contr.calculateCost(inspectionList);
-        System.out.println("Total Cost: " +totalcost);
-        makePaymentByCashOrCard(regNo, totalcost);
-        System.out.println("Performing inspection......");
-        System.out.println("Inspection Result......");
-        System.out.println();
 
-        System.out.println("*****************************************************************");
-        System.out.println("##################  INSPECTION RESULT CHECKLIST   ###############");
-        System.out.println("*****************************************************************");
-        makeInspectionresult();
-        contr.saveInspectionResult(regNo, inspectionResult);
-        System.out.println("Inspection done for Vehicle" + regNo);
-        } else {
-            System.out.println("Enter Valid Regisitration No");
+            boolean isRegNoVerified = contr.verifyRegistrationNo(regNo);
+            if (isRegNoVerified) {
+                inspectionList = contr.fetchInspectionList(regNo);
+                displayInspectionList(regNo, inspectionList);
+                double totalcost = contr.calculateCost(inspectionList);
+                System.out.println("Total Cost: " + totalcost);
+                makePaymentByCashOrCard(regNo, totalcost);
+                System.out.println("Performing inspection......");
+                System.out.println("Inspection Result......");
+                System.out.println();
+
+                 makeInspectionresult(inspectionList);
+                contr.saveInspectionResult(regNo, inspectionResult);
+                System.out.println("Inspection done for Vehicle" + regNo);
+            } else {
+                System.out.println("Enter Valid Regisitration No");
+            }
+        } catch (InputMismatchException ex) {
+            System.out.println("Enter Reg No in proper format");
+        }
+
+    }
+
+    /**
+     * Make Inspection Result for every inspection 
+     * done outside.
+     * @param inspections 
+     */
+    void makeInspectionresult(ArrayList<InspectionDTO> inspections) {
+        Scanner sc = new Scanner(System.in);
+        boolean isInspectionDone;
+        System.out.println("##################  Enter INSPECTION RESULT   ###############");
+        for (InspectionDTO inspection : inspections) {
+            System.out.println(inspection.getInspectionValue());
+            System.out.println("Enter Inspection Result......Pass/ Fail");
+            String result = sc.next();
+
+            if (result.toLowerCase().equals("pass")) {
+                isInspectionDone = true;
+            } else {
+                isInspectionDone = false;
+            }
+            inspectionResult.add(new InspectionDTO(inspection, isInspectionDone));
         }
     }
-         catch(InputMismatchException ex)
-        {
-        System.out.println("Enter Reg No in proper format");
-        }
-        
-        
-    }
 
-    void makeInspectionresult() {
-        inspectionResult.add(new Inspection("Driver Seat Function", 200, false));
-        inspectionResult.add(new Inspection("Mirror Functions", 300, true));
-        inspectionResult.add(new Inspection("Navigation System", 500, true));
-    }
-
-    void displayInspectionList(String regNo, ArrayList<Inspection> inspectionData) {
+    /**
+     * Display Inspection List for given Reg No
+     * @param regNo
+     * @param inspectionData 
+     */
+    void displayInspectionList(String regNo, ArrayList<InspectionDTO> inspectionData) {
         System.out.printf(" Registration Number :    " + regNo);
         System.out.println();
         System.out.println();
@@ -108,14 +121,25 @@ public class InspectorView {
         }
     }
 
+    /**
+     * Ask user to choose payment by cash or card
+     * And make payment
+     * @param regNo
+     * @param totalCost 
+     */
     void makePaymentByCashOrCard(String regNo, double totalCost) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to pay by Credit Card? enter yes or No");
         String payByCard = sc.next();
         if (payByCard.toLowerCase().equals("yes")) {
             System.out.println("Enter credit card details");
-            CreditCard cardDetail = new CreditCard(5, "n", "holder", new Date(2018, 03, 03), 323);
-
+            System.out.println("Enter credit card pin");
+            int pin = sc.nextInt();
+            System.out.println("Enter credit card Owner name");
+            String owner = sc.next();
+            System.out.println("Enter credit card 3 digit CVV no");
+            int cvv = sc.nextInt();
+            CreditCard cardDetail = new CreditCard(pin, "n", owner, new Date(2018, 03, 03), cvv);
             contr.makePayment(regNo, cardDetail, totalCost);
         } else {
             System.out.println("Enter cash amount");

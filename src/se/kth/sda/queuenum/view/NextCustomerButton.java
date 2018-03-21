@@ -8,6 +8,7 @@ import se.kth.sda.queuenum.controller.InspectionController;
  */
 public class NextCustomerButton {
     private InspectionController contr;
+    
     /**
      * Instantiates an object using the specified controller for system operations.
      * 
@@ -17,6 +18,10 @@ public class NextCustomerButton {
         this.contr = contr;
 
     }
+    
+    /**
+     * Display next no in queue
+     */
     public void displayNo()
     {
         System.out.println("Press button");

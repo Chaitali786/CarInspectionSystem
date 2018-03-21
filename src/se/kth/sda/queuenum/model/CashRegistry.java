@@ -1,36 +1,52 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package se.kth.sda.queuenum.model;
 
 /**
+ * To handle cash payment
  *
  * @author tmp-sda-1160
  */
 public class CashRegistry {
+
     private double purchase;
     private double payment;
-    
-    public CashRegistry (){
-        purchase=0;
-        payment=0;
-    
-}
-    public void recordPurchase(double amount){
-        purchase+=amount;
+
+    /**
+     * To set initial cost and payment as zero
+     */
+    public CashRegistry() {
+        purchase = 0;
+        payment = 0;
+
     }
-    
-    public void enterPayment(double amount){
-        payment=amount;
+
+    /**
+     * To set total cost as Purchase
+     *
+     * @param amount
+     */
+    public void recordPurchase(double amount) {
+        purchase += amount;
     }
-    public double giveChange(){
-    double change=payment-purchase;
-    purchase=0;
-    payment=0;
-    return change;
+
+    /**
+     * To enter cash user paid
+     *
+     * @param amount
+     */
+    public void enterPayment(double amount) {
+        payment = amount;
     }
-    
-   
+
+    /**
+     * To calculate refund
+     *
+     * @return
+     */
+    public double giveChange() {
+        double change = payment - purchase;
+        purchase = 0;
+        payment = 0;
+        return change;
+    }
+
 }
