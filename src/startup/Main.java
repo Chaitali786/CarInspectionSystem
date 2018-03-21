@@ -1,6 +1,9 @@
 package startup;
 
 import controller.InspectionController;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.QueueNumber;
 import view.InspectorView;
 import view.NextCustomerButton;
@@ -25,6 +28,11 @@ public class Main {
 
         nxb.displayNo();
         view.openGarageDoor();
+         try {
+            TimeUnit.SECONDS.sleep(15);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         view.closeGarageDoor();
         boolean isInspectionDone = view.performInspection();
         while (!isInspectionDone) {
