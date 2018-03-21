@@ -1,3 +1,6 @@
 /dist/
 /Build/
 /.zip/
+build.xml
+manifest.xml
+/nbproject/
