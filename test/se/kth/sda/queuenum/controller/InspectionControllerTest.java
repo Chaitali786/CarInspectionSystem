@@ -162,37 +162,6 @@ public void restoreStreams() {
         assertTrue(isExist);
     }
 
-    /**
-     * Test of makePayment method, of class InspectionController.
-     */
-    @Ignore
-    public void testMakePayment_3args_1() {
-        System.out.println("makePayment");
-        String regNo = "";
-        CreditCard cardDetail = null;
-        double cost = 0.0;
-        InspectionController instance = null;
-        instance.makePayment(regNo, cardDetail, cost);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of makePayment method, of class InspectionController.
-     */
-   @Ignore
-    public void testMakePayment_3args_2() {
-        System.out.println("makePayment");
-        String regNo = "";
-        double cashPaid = 0.0;
-        double cost = 0.0;
-        InspectionController instance = null;
-        double expResult = 0.0;
-        double result = instance.makePayment(regNo, cashPaid, cost);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of savePayment method, of class InspectionController.

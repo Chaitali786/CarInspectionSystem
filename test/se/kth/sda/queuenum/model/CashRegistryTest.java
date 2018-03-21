@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
  */
 public class CashRegistryTest {
     
+    private CashRegistry instance;
     public CashRegistryTest() {
     }
     
@@ -31,6 +32,7 @@ public class CashRegistryTest {
     
     @Before
     public void setUp() {
+         instance = new CashRegistry();
     }
     
     @After
@@ -40,11 +42,11 @@ public class CashRegistryTest {
     /**
      * Test of recordPurchase method, of class CashRegistry.
      */
-    @Test
+   
     public void testRecordPurchase() {
         System.out.println("recordPurchase");
-        double amount = 0;
-        CashRegistry instance = new CashRegistry();
+        double amount = 500;
+        
         instance.recordPurchase(amount);
         
     }
@@ -52,11 +54,10 @@ public class CashRegistryTest {
     /**
      * Test of enterPayment method, of class CashRegistry.
      */
-    @Test
+    
     public void testEnterPayment() {
         System.out.println("enterPayment");
-        double amount = 0;
-        CashRegistry instance = new CashRegistry();
+        double amount = 1000;
         instance.enterPayment(amount);
     }
 
@@ -66,10 +67,11 @@ public class CashRegistryTest {
     @Test
     public void testGiveChange() {
         System.out.println("giveChange");
-        CashRegistry instance = new CashRegistry();
-        double expResult = 0;
-        double result = instance.giveChange();
-        assertEquals(expResult, result,0);
+        testRecordPurchase();
+        testEnterPayment();
+        double expResult = 1000.0-500.0;
+        double actual = instance.giveChange();
+         assertEquals(expResult, actual,0);
         
     }
     
