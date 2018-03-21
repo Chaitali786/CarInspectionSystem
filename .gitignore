@@ -1,5 +1,5 @@
 /dist/
-/Build/
+/build/
 /.zip/
 build.xml
 manifest.xml
