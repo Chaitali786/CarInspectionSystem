@@ -106,6 +106,7 @@ public class InspectionController {
         cashRegistry.recordPurchase(cost);
         cashRegistry.enterPayment(cashPaid);
         double refund = cashRegistry.giveChange();
+        if(refund >= 0)
         savePayment(regNo, cost);
         return refund;
     }
